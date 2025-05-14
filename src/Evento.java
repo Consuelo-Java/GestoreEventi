@@ -9,7 +9,7 @@ public class Evento {
     public TipoEvento tipo;
     public String codice;
 
-    private static String EVT = "EVT";
+    private static final String EVT = "EVT";
 
     public Evento(String nome, LocalDate data, TipoEvento tipo){
         if(nome == null || nome.isEmpty()){
@@ -24,5 +24,26 @@ public class Evento {
         this.tipo = tipo;
         int random = 100 + new Random().nextInt(900);
         this.codice = EVT + "-" + DateTimeFormatter.ofPattern("yyyyMMdd").format(data) + "-" + random;
+    }
+
+    public void formattaNome(){
+
+        StringBuilder stringBuilder = new StringBuilder();
+        String[] parole = this.nome.toLowerCase().split(" ");
+
+        for (String parola : parole) {
+            if (!parola.isEmpty()) {
+                stringBuilder.append(Character.toUpperCase(parola.charAt(0)))
+                        .append(parola.substring(1));
+            }
+            stringBuilder.append(" ");
+        }
+
+        if(stringBuilder.length() > 50){
+            StringBuilder tempBuilder = new StringBuilder();
+            stringBuilder = tempBuilder.append(stringBuilder, 0, 50).append("...");
+        }
+        this.nome = stringBuilder.toString();
+
     }
 }
